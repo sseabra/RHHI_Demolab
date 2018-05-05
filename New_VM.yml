@@ -33,7 +33,7 @@
      ovirt_vms:
         auth: "{{ ovirt_auth }}"
         name: "{{ vm_name }}"      
-        state: present
+        state: running
         template: "{{ template }}"
         cluster: "{{ cluster }}"
         memory: "{{ vm_mem }}"
