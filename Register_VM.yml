@@ -1,0 +1,103 @@
+---
+- hosts: all
+  remote_user: root
+  vars:
+    vm_name: XXXX.labmad.redhat.com
+    vm_ip: "10.32.170.XXX"
+    rh_user: "XXXX" 
+    rh_pass: "XXXX" 
+    pool_id: "XXXX"
+    vm_gw: "10.32.170.254"
+    vm_dns: "10.32.170.50"
+    vm_dns_search: "labmad.redhat.com"
+
+  tasks:
+   - name: Clear OLD nameserver from /etc/resolv.conf
+     lineinfile:
+       path: /etc/resolv.conf
+       regexp: "^nameserver"
+       state: absent
+
+   - name: Set unique nameserver in /etc/resolv.conf
+     lineinfile:
+       path: /etc/resolv.conf
+       regexp: "^nameserver"
+       line: "nameserver {{ vm_dns }}"
+       state: present
+
+   - name: Set Hostname "{{ vm_name }}"
+     hostname:
+        name: "{{ vm_name }}"
+     notify: Restart Login Service
+
+   - name: Name resolution for "{{ vm_name }}"
+     lineinfile:
+        dest=/etc/hosts
+        regexp="^{{ vm_ip }}"
+        line='{{ vm_ip }} {{ vm_name }}'
+        state=present
+     notify: Restart Login Service
+
+   - name: Register Server
+     redhat_subscription:
+       username: "{{ rh_user }}"
+       password: "{{ rh_pass }}"
+       pool_ids: "{{ pool_id }}"
+       state: present
+
+   - name: Disable all repos
+     command: subscription-manager repos --disable="*"
+
+   - name: Enable required repos
+     command: subscription-manager repos --enable="{{ item }}"
+     with_items:
+        - rhel-7-server-rpms
+        - rhel-7-server-extras-rpms
+
+   - name: Install NetworkManager-glib
+     yum: name=NetworkManager-glib state=latest
+
+   - name: Configure persistent NIC configuration 
+     nmcli:
+       conn_name: "nic0"
+       ifname: eth0
+       type: ethernet
+       ip4: "{{ vm_ip }}/24"
+       gw4: "{{ vm_gw }}"
+       dns4: "{{ vm_dns }}"
+       autoconnect: true
+       state: present
+     ignore_errors: yes
+
+   - name: Delete initial connection "System eth0" 
+     command: nmcli con del "System eth0"
+     ignore_errors: yes
+     
+   - name: Install Required Packages
+     yum: 
+         name: "{{ item }}" 
+         state: latest
+     with_items:
+        - wget
+        - git 
+        - net-tools 
+        - bash-completion
+        - ovirt-guest-agent-common
+     
+   - name: Update server
+     yum: 
+        name: '*' 
+        state: latest
+
+   - name: Enable ovirt-guest-tools service
+     systemd: state=started name=ovirt-guest-agent
+
+
+  handlers:
+    - name: Restart Login Service
+      systemd: state=restarted name=getty@tty1
+
+    - name: Restart DNS
+      systemd: state=restarted name=dnsmasq
+
+
