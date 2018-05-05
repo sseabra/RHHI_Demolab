@@ -2,11 +2,21 @@
 - hosts: all
   remote_user: root
   vars:
-    vm_name: XXXX.labmad.redhat.com
-    vm_ip: "10.32.170.XXX"
-    rh_user: "XXXX" 
-    rh_pass: "XXXX" 
-    pool_id: "XXXX"
+    vm_ip: "10.32.170.24X"
+  tasks:
+   - name: Add host to group
+     add_host:
+       hostname: "{{ vm_ip }}"
+       groups: newnode
+
+- hosts: newnode
+  remote_user: root
+  vars:
+    vm_name: testX.labmad.redhat.com
+    vm_ip: "10.32.170.24X"
+    rh_user: "XXXXX" 
+    rh_pass: "XXXXX" 
+    pool_id: "XXXXX"
     vm_gw: "10.32.170.254"
     vm_dns: "10.32.170.50"
     vm_dns_search: "labmad.redhat.com"
