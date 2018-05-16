@@ -43,7 +43,7 @@
           nic_boot_protocol: static
           nic_ip_address: "{{ vm_ip }}"
           nic_netmask: "{{ vm_msk }}"
-          nic_gateway: "{{ vm_gw }}" 
+          nic_gateway: 10.32.170.254 
           dns_servers: "{{ vm_dns }}" 
           dns_search: "{{ vm_dns_search }}"
           nic_name: eth0
