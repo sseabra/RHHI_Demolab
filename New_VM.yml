@@ -65,20 +65,6 @@
        port: 22
        delay: 2
  
-   - name: Install remaining packages pre-reqs
-     yum: state=present name={{ item }}
-     with_items:
-     - deltarpm
-     - centos-release-ovirt42
-     - ovirt-guest-agent-common
- 
-   - name: Enable ovirt-guest-tools service
-     systemd: state=started name=ovirt-guest-agent
- 
-   - name: install system updates for centos systems
-     yum: name=* state=latest update_cache=yes
-     when: ansible_distribution == "CentOS"
-
    - name: Clear OLD nameserver from /etc/resolv.conf
      lineinfile:
        path: /etc/resolv.conf
@@ -107,6 +93,20 @@
         state=present
      notify: Restart DNS
      delegate_to: "{{ vm_dns }}"
+ 
+   - name: Install remaining packages pre-reqs
+     yum: state=present name={{ item }}
+     with_items:
+     - deltarpm
+     - centos-release-ovirt42
+     - ovirt-guest-agent-common
+ 
+   - name: Enable ovirt-guest-tools service
+     systemd: state=started name=ovirt-guest-agent
+ 
+   - name: install system updates for centos systems
+     yum: name=* state=latest update_cache=yes
+     when: ansible_distribution == "CentOS"
 
 
   post_tasks:
