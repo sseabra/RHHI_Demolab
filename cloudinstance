@@ -62,6 +62,8 @@
          name: "{{ item }}" 
          state: latest
      with_items:
+        - deltarpm
+        - centos-release-ovirt42
         - net-tools 
         - bash-completion
         - ovirt-guest-agent-common
