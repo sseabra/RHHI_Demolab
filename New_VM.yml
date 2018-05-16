@@ -65,6 +65,13 @@
        port: 22
        delay: 2
  
+   - name: Install remaining packages pre-reqs
+     yum: state=present name={{ item }}
+     with_items:
+     - deltarpm
+     - centos-release-ovirt42
+     - ovirt-guest-agent-common
+ 
    - name: Enable ovirt-guest-tools service
      systemd: state=started name=ovirt-guest-agent
  
