@@ -66,6 +66,14 @@
        port: 22
        delay: 2
 
+   - name: Update server
+     yum: 
+        name: '*' 
+        state: latest
+
+   - name: Enable ovirt-guest-tools service
+     systemd: state=started name=ovirt-guest-agent
+
    - name: Clear OLD nameserver from /etc/resolv.conf
      lineinfile:
        path: /etc/resolv.conf
