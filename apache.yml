@@ -3,7 +3,7 @@
   hosts: all
   tasks:
   - name: install httpd
-    yum: pkg=httpd state=latest
+    yum: name=httpd state=latest
 #  - name: write the apache config file
 #    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
   - name: start httpd
