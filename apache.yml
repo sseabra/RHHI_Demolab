@@ -8,9 +8,9 @@
 
   tasks:
   - name: Deploy Apache
-    package:
+    yum:
       name: httpd
-      state: present
+      state: latest
 #  - name: install httpd
 #    yum: name=httpd state=present
 #  - name: write the apache config file
