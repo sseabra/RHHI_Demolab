@@ -10,7 +10,7 @@
   - name: Deploy Apache
     yum:
       name: httpd
-      state: present
+      state: latest
 #  - name: install httpd
 #    yum: name=httpd state=present
 #  - name: write the apache config file
