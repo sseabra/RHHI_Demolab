@@ -8,11 +8,11 @@
 
   tasks:
   - name: install httpd
-    yum: name=httpd state=present
+    yum: name=httpd state=latest
 #  - name: write the apache config file
 #    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
   - name: start httpd
-    service: name=httpd state=started
+    systemd: name=httpd state=started
 
   - name: ensure apache is running (and enable it at boot)
     systemd: name=httpd state=started enabled=yes
