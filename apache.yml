@@ -17,6 +17,9 @@
   - name: ensure apache is running (and enable it at boot)
     systemd: name=httpd state=started enabled=yes
 
-- firewalld: service=https permanent=true state=enabled
+  - firewalld:
+      service: https
+      permanent: true
+      state: enabled
 
-- firewalld: port=80/tcp zone=public permanent=true state=enabled immediate=yes
+  - firewalld: port=80/tcp zone=public permanent=true state=enabled immediate=yes
