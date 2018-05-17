@@ -4,8 +4,8 @@
   tasks:
   - name: install httpd
     yum: pkg=httpd state=present
-  - name: write the apache config file
-    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
+#  - name: write the apache config file
+#    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
   - name: start httpd
     service: name=httpd state=running
   - name: start firewall
