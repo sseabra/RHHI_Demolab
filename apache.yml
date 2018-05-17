@@ -1,5 +1,6 @@
 ---
 - name: install and start apache
+  remote_user: root
   hosts: all
 #  become: yes
   vars:
