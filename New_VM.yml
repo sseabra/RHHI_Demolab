@@ -98,7 +98,6 @@
      yum: state=present name={{ item }}
      with_items:
      - deltarpm
-     - centos-release-ovirt42
      - ovirt-guest-agent-common
  
    - name: Enable ovirt-guest-tools service
