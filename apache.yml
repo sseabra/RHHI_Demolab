@@ -2,20 +2,24 @@
 - name: install and start apache
   hosts: all
 #  become: yes
-  vars:
-    http_port: 80
-    max_clients: 200
+#  vars:
+#    http_port: 80
+#    max_clients: 200
 
   tasks:
-  - name: install httpd
-    yum: name=httpd-24.4.6-80.el7.centos state=present
+- name: install the nginx rpm from a remote repo
+  yum:
+    name: http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+    state: present
+#  - name: install httpd
+#    yum: name=httpd state=present
 #  - name: write the apache config file
 #    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
   - name: start httpd
-    systemd: name=httpd state=started
+    systemd: name=nginx state=started
 
   - name: ensure apache is running (and enable it at boot)
-    systemd: name=httpd state=started enabled=yes
+    systemd: name=nginx state=started enabled=yes
 
   - firewalld:
       service: https
