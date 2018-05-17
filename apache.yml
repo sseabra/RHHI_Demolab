@@ -7,7 +7,7 @@
 #  - name: write the apache config file
 #    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
   - name: start httpd
-    service: name=httpd state=started
+    systemd: name=httpd state=started
   - name: start firewall
     firewalld: service=https permanent=true state=enabled
   - name: open firewall
