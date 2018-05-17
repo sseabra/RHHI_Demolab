@@ -1,15 +1,15 @@
 ---
 - name: install and start apache
   hosts: all
-#  become: yes
-#  vars:
-#    http_port: 80
-#    max_clients: 200
+  become: yes
+  vars:
+    http_port: 80
+    max_clients: 200
 
   tasks:
-  - name: install the nginx rpm from a remote repo
+  - name: Deploy Apache
     yum:
-      name: httpd-2.4
+      name: httpd
       state: present
 #  - name: install httpd
 #    yum: name=httpd state=present
