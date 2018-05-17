@@ -97,7 +97,7 @@
    - name: Install remaining packages pre-reqs
      yum:
        name: centos-release-ovirt42
-       state: latest
+       state: present
  
    - name: Enable ovirt-guest-tools service
      systemd: state=started name=ovirt-guest-agent
