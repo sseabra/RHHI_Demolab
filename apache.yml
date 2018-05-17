@@ -1,21 +1,22 @@
 ---
- - name: This sets up an httpd webserver
- - hosts: all
-   
-   tasks:
- - name: install the latest version of Apache
-   yum:
-     name: httpd
-     state: latest
-     
+- name: install and start apache
+  hosts: all
+#  become: yes
+  vars:
+    http_port: 80
+    max_clients: 200
+
+  tasks:
+  - name: install httpd
+    yum: name=httpd state=present
 #  - name: write the apache config file
 #    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
+  - name: start httpd
+    service: name=httpd state=running
 
- - name: start httpd
-   systemd: name=httpd state=started
-  
- - name: start firewall
-   firewalld: service=https permanent=true state=enabled
+  - name: ensure apache is running (and enable it at boot)
+    systemd: name=httpd state=started enabled=yes
 
- - name: open firewall
-   firewalld: port=80/tcp zone=public permanent=true state=enabled immediate=yes
+- firewalld: service=https permanent=true state=enabled
+
+- firewalld: port=80/tcp zone=public permanent=true state=enabled immediate=yes
