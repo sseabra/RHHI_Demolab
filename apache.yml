@@ -8,7 +8,7 @@
 
   tasks:
   - name: install httpd
-    yum: name=httpd state=latest
+    yum: name=httpd-24.4.6-80.el7.centos state=present
 #  - name: write the apache config file
 #    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
   - name: start httpd
