@@ -9,17 +9,17 @@
   tasks:
   - name: install the nginx rpm from a remote repo
     yum:
-      name: nginx
+      name: httpd-2.4
       state: present
 #  - name: install httpd
 #    yum: name=httpd state=present
 #  - name: write the apache config file
 #    copy: src=/templates/index.html dest=/var/www/html/ mode=0644
   - name: start httpd
-    systemd: name=nginx state=started
+    systemd: name=httpd state=started
 
   - name: ensure apache is running (and enable it at boot)
-    systemd: name=nginx state=started enabled=yes
+    systemd: name=httpd state=started enabled=yes
 
   - firewalld:
       service: https
