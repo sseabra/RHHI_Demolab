@@ -1,6 +1,6 @@
 ---
  - name: This sets up an httpd webserver
-   hosts: all
+ - hosts: all
    
    tasks:
  - name: install the latest version of Apache
