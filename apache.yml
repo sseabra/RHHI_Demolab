@@ -1,6 +1,6 @@
 ---
 - name: install and start apache
-  hosts:  
+  hosts: all
   become: yes
   vars:
     http_port: 80
