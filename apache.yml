@@ -1,6 +1,6 @@
 ---
 - name: This sets up an httpd webserver
-  hosts: 10.32.170.241 
+  hosts: sps.labmad.redhat.com 
   become=yes
 #  vars:
 #    vm_ip: "10.32.170.24X"
