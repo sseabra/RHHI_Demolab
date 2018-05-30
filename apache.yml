@@ -2,7 +2,7 @@
 - name: install and start apache
   remote_user: root
   hosts: all
-#  become: yes
+  become: yes
   vars:
     http_port: 80
     max_clients: 200
