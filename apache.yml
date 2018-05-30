@@ -1,16 +1,16 @@
 ---
 - name: This sets up an httpd webserver
-  hosts: all
+  hosts: "{{ vm_name }}" 
   become=yes
-  vars:
-    vm_ip: "10.32.170.24X"
-  tasks:
-   - name: Add host to group
-     add_host:
-       hostname: "{{ vm_ip }}"
-       groups: scml
+#  vars:
+#    vm_ip: "10.32.170.24X"
+#  tasks:
+#   - name: Add host to group
+#     add_host:
+#       hostname: "{{ vm_ip }}"
+#       groups: scml
 
-- hosts: scml 
+#- hosts: scml 
   tasks:
   - name: install httpd
     yum: pkg=httpd state=present
