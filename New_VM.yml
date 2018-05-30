@@ -15,7 +15,7 @@
     engine_user: admin@internal
     engine_password: "XXXXX"
     engine_url: https://rhhi.labmad.redhat.com/ovirt-engine/api
-    template: CentOS
+    template: CentOS7.5
     cluster: RHHI-Cluster
 
   pre_tasks:
@@ -33,7 +33,7 @@
      ovirt_vms:
         auth: "{{ ovirt_auth }}"
         name: "{{ vm_name }}"      
-        state: present
+        state: running
         template: "{{ template }}"
         cluster: "{{ cluster }}"
         memory: "{{ vm_mem }}"
@@ -59,21 +59,12 @@
           root_password: "{{ vm_root_pw }}"
 
 
-
    - name: Wait until new VM be accesible
      wait_for:
        host: "{{ vm_ip }}"
        port: 22
        delay: 2
-
-   - name: Update server
-     yum: 
-        name: '*' 
-        state: latest
-
-   - name: Enable ovirt-guest-tools service
-     systemd: state=started name=ovirt-guest-agent
-
+ 
    - name: Clear OLD nameserver from /etc/resolv.conf
      lineinfile:
        path: /etc/resolv.conf
@@ -102,8 +93,19 @@
         state=present
      notify: Restart DNS
      delegate_to: "{{ vm_dns }}"
-
-
+ 
+#   - name: Add repository
+#     yum_repository:
+#       name: epel
+#       description: EPEL YUM repo
+#       baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+#     
+#   - name: Install remaining packages pre-reqs
+#     yum: update_cache=yes name=ovirt-guest-agent-common state=latest
+# 
+#   - name: Enable ovirt-guest-tools service
+#     systemd: state=started name=ovirt-guest-agent.service
+ 
   post_tasks:
     - name: Logout from oVirt
       ovirt_auth:
@@ -116,5 +118,3 @@
     - name: Restart DNS
       systemd: state=restarted name=dnsmasq
       delegate_to: "{{ vm_dns }}"
-
-
