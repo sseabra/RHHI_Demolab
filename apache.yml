@@ -1,6 +1,6 @@
 ---
 - name: install and start apache
-  hosts: sps.labmad.redhat.com 
+  hosts:  
   become: yes
   vars:
     http_port: 80
